@@ -18,6 +18,8 @@ USER catgirl
 
 WORKDIR /app
 COPY meowclock /app/meowclock
+RUN mkdir /app/data
+VOLUME /app/data
 
-ENTRYPOINT ["/usr/bin/env", "python", "-m", "meowclock"]
+ENTRYPOINT ["/usr/bin/env", "python", "-m", "meowclock", "-s", "/app/data"]
 STOPSIGNAL SIGINT

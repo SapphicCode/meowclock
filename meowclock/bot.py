@@ -5,8 +5,22 @@ import random
 import os.path
 
 
-APP_FILE = '.app_secrets'
-SECRETS_FILE = '.oauth_secret'
+APP_FILE = 'app.secrets'
+SECRETS_FILE = 'oauth.secret'
+HOUR_FILE = 'last_hour.txt'
+
+
+def read_int_from_file(name, default=None) -> int:
+    try:
+        with open(name, 'r') as f:
+            return int(f.read().strip())
+    except FileNotFoundError:
+        return default
+
+
+def save_int_to_file(name, n):
+    with open(name, 'r') as f:
+        f.write(str(n)+'\n')
 
 
 def current_hour() -> int:
@@ -42,7 +56,7 @@ def send_meows(c: mastodon.Mastodon, amount):
 def run(username, password, domain):
     """This is a print-happy function. Don't use this when integrating this bot into other programs."""
     c = create_client(username, password, domain)
-    _last_seen_hour = -1
+    _last_seen_hour = read_int_from_file(HOUR_FILE)
     print('Client created successfully.')
     while True:
         now = current_hour()
@@ -50,6 +64,7 @@ def run(username, password, domain):
             try:
                 send_meows(c, now)
                 _last_seen_hour = now  # ensures we don't set if we failed to post, ensuring a retry
+                save_int_to_file(HOUR_FILE, _last_seen_hour)
                 print('Post sent.')
             except Exception as e:
                 print('Exception {} raised while attempting to send post.'.format(e))
