@@ -1,7 +1,7 @@
 # build
 FROM python:alpine AS build
 
-RUN apk update && apk add build-base
+RUN apk update && apk add build-base libffi-dev openssl-dev
 
 WORKDIR /tmp
 COPY requirements.txt /tmp/
@@ -13,10 +13,11 @@ FROM python:alpine
 COPY --from=build /tmp/wheels /tmp/wheels
 RUN pip install /tmp/wheels/* && rm -r /tmp/wheels
 
-RUN useradd -h /app catgirl
+RUN useradd -D -h /app catgirl
 USER catgirl
 
 WORKDIR /app
 COPY meowclock /app/meowclock
 
-ENTRYPOINT ["python", "-m", "meowclock"]
+ENTRYPOINT ["/usr/bin/env", "python", "-m", "meowclock"]
+STOPSIGNAL SIGINT
