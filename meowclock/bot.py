@@ -19,7 +19,7 @@ def read_int_from_file(name, default=None) -> int:
 
 
 def save_int_to_file(name, n):
-    with open(name, 'r') as f:
+    with open(name, 'w') as f:
         f.write(str(n)+'\n')
 
 
