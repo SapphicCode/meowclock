@@ -1,0 +1,13 @@
+# IDEA
+*.iml
+.idea/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# project-specific
+**/.app_secrets
+**/.oauth_secret
