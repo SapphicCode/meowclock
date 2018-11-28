@@ -13,7 +13,7 @@ FROM python:alpine
 COPY --from=build /tmp/wheels /tmp/wheels
 RUN pip install /tmp/wheels/* && rm -r /tmp/wheels
 
-RUN useradd -D -h /app catgirl
+RUN adduser -D -h /app catgirl
 USER catgirl
 
 WORKDIR /app
