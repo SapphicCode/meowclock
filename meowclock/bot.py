@@ -68,5 +68,6 @@ def run(username, password, domain):
                 print('Post sent.')
             except Exception as e:
                 print('Exception {} raised while attempting to send post.'.format(e))
+                time.sleep(60)
         print('Sleeping...')
-        time.sleep(60)
+        time.sleep(1)
